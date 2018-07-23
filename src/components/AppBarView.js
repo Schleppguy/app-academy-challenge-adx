@@ -21,7 +21,7 @@ const AppBarView = props => {
       <AppBar position="static">
         <Toolbar className={classes.bar}>
           <Button color="inherit" onClick={() => clearCurrentDoc()}>
-            My Docs
+            Doc List
           </Button>
           <Typography variant="title" color="inherit" className={classes.title}>
             App Academy Docs

@@ -1,8 +1,17 @@
 import { handleActions } from 'redux-actions';
-import { clearCurrentDoc, setCurrentDoc } from '../actions';
+import {
+  clearCurrentDoc,
+  setCurrentDoc,
+  getDocsStart,
+  getDocsSuccess,
+  getDocsError
+} from '../actions';
 
 const defaultState = {
-  currentDoc: null
+  currentDoc: null,
+  docs: null,
+  loading: false,
+  lastError: null
 };
 
 const docs = handleActions(
@@ -14,6 +23,20 @@ const docs = handleActions(
     [setCurrentDoc]: (state, { payload }) => ({
       ...state,
       currentDoc: payload
+    }),
+    [getDocsStart]: state => ({
+      ...state,
+      loading: true
+    }),
+    [getDocsSuccess]: (state, { payload }) => ({
+      ...state,
+      loading: false,
+      docs: payload
+    }),
+    [getDocsError]: (state, { payload }) => ({
+      ...state,
+      loading: false,
+      lastError: payload
     })
   },
   defaultState
