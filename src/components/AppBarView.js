@@ -15,12 +15,14 @@ const styles = {
 };
 
 const AppBarView = props => {
-  const { classes } = props;
+  const { classes, clearCurrentDoc } = props;
   return (
     <div>
       <AppBar position="static">
         <Toolbar className={classes.bar}>
-          <Button color="inherit">My Docs</Button>
+          <Button color="inherit" onClick={() => clearCurrentDoc()}>
+            My Docs
+          </Button>
           <Typography variant="title" color="inherit" className={classes.title}>
             App Academy Docs
           </Typography>
