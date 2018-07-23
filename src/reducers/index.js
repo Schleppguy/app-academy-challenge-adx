@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import funcounter from './funcounter';
+import user from './user';
 
 const reducers = combineReducers({
-  funcounter
+  funcounter,
+  user
 });
 
 export default reducers;

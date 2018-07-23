@@ -9,11 +9,12 @@ import reducers from './reducers';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import App from './components/App';
+import App from './containers/App';
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  whitelist: ['user']
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 const middlewares = [thunk, logger];
