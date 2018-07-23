@@ -1,5 +1,6 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBarView from './AppBarView';
 import UserForm from '../components/UserForm';
 
 const AppView = props => {
@@ -12,6 +13,7 @@ const AppView = props => {
   return (
     <React.Fragment>
       <CssBaseline />
+      <AppBarView />
       {content}
     </React.Fragment>
   );

@@ -10,13 +10,17 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
   card: {
-    minWidth: 275,
+    minWidth: 300,
     maxWidth: '50%',
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: '5em'
   },
   title: {
     marginBottom: 16,
     fontSize: 14
+  },
+  input: {
+    marginTop: '2em'
   }
 };
 
@@ -49,10 +53,9 @@ class UserForm extends Component {
               Please create a username to access and edit the team's docs.
             </Typography>
             <TextField
+              className={classes.input}
               autoFocus
               required
-              margin="dense"
-              id="name"
               label="Enter A Username"
               fullWidth
               value={this.state.inputValue}
