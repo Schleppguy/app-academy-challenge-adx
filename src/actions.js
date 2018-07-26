@@ -16,7 +16,7 @@ export const getDocs = () => {
     axios
       .get(`${BASE_URL}/read`)
       .then(docs => {
-        dispatch(getDocsSuccess(docs));
+        dispatch(getDocsSuccess(docs.data));
       })
       .catch(error => {
         dispatch(getDocsError(error));

@@ -7,7 +7,11 @@ import DocList from '../containers/DocList';
 const AppView = props => {
   let content;
   if (props.username) {
-    content = <DocList />;
+    if (props.currentDoc) {
+      content = <div>currentDoc</div>;
+    } else {
+      content = <DocList />;
+    }
   } else {
     content = <UserForm addUser={props.addUser} />;
   }
