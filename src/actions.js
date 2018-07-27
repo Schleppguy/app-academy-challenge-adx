@@ -9,7 +9,11 @@ export const setCurrentDoc = createAction('SET_CURRENT_DOC');
 export const getDocsStart = createAction('GET_DOCS_START');
 export const getDocsSuccess = createAction('GET_DOCS_SUCCESS');
 export const getDocsError = createAction('GET_DOCS_ERROR');
+export const updateDocStart = createAction('UPDATE_DOC_START');
+export const updateDocSuccess = createAction('UPDATE_DOC_SUCCESS');
+export const updateDocError = createAction('UPDATE_DOC_ERROR');
 
+//async
 export const getDocs = () => {
   return dispatch => {
     dispatch(getDocsStart());
@@ -20,6 +24,24 @@ export const getDocs = () => {
       })
       .catch(error => {
         dispatch(getDocsError(error));
+      });
+  };
+};
+
+export const updateDoc = doc => {
+  return dispatch => {
+    dispatch(updateDocStart());
+    axios
+      .post(`${BASE_URL}/update/${doc.name}`, {
+        issuer: doc.issuer,
+        content: doc.content
+      })
+      .then(() => {
+        dispatch(updateDocSuccess());
+        dispatch(getDocs());
+      })
+      .catch(error => {
+        dispatch(updateDocError(error));
       });
   };
 };

@@ -3,12 +3,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '../containers/AppBar';
 import UserForm from '../components/UserForm';
 import DocList from '../containers/DocList';
+import Doc from '../containers/Doc';
 
 const AppView = props => {
   let content;
   if (props.username) {
     if (props.currentDoc) {
-      content = <div>currentDoc</div>;
+      content = <Doc />;
     } else {
       content = <DocList />;
     }

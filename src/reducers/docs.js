@@ -4,14 +4,19 @@ import {
   setCurrentDoc,
   getDocsStart,
   getDocsSuccess,
-  getDocsError
+  getDocsError,
+  updateDocStart,
+  updateDocSuccess,
+  updateDocError
 } from '../actions';
 
 const defaultState = {
   currentDoc: null,
   docs: null,
-  loading: false,
-  lastError: null
+  getDocsLoading: false,
+  getDocsLastError: null,
+  updateDocLoading: false,
+  updateDocLastError: null
 };
 
 const docs = handleActions(
@@ -26,17 +31,30 @@ const docs = handleActions(
     }),
     [getDocsStart]: state => ({
       ...state,
-      loading: true
+      getDocsLoading: true
     }),
     [getDocsSuccess]: (state, { payload }) => ({
       ...state,
-      loading: false,
+      getDocsLoading: false,
       docs: payload
     }),
     [getDocsError]: (state, { payload }) => ({
       ...state,
+      getDocsLoading: false,
+      getDocsLastError: payload
+    }),
+    [updateDocStart]: state => ({
+      ...state,
+      updateDocLoading: true
+    }),
+    [updateDocSuccess]: state => ({
+      ...state,
+      loading: false
+    }),
+    [updateDocError]: (state, { payload }) => ({
+      ...state,
       loading: false,
-      lastError: payload
+      updateDocLastError: payload
     })
   },
   defaultState

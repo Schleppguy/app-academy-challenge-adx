@@ -3,10 +3,10 @@ import { getDocs, setCurrentDoc } from '../actions';
 import DocListView from '../components/DocListView';
 
 const mapStateToProps = state => {
-  const { docs, loading } = state.docs;
+  const { docs, getDocsLoading } = state.docs;
   return {
     docs,
-    loading
+    getDocsLoading
   };
 };
 
