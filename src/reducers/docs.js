@@ -8,7 +8,9 @@ import {
   updateDocStart,
   updateDocSuccess,
   updateDocError,
-  updateSaveButtonStatus
+  updateSaveButtonStatus,
+  setDocSaveMessage,
+  toggleDocSaveSnackbar
 } from '../actions';
 
 const defaultState = {
@@ -18,7 +20,9 @@ const defaultState = {
   getDocsLastError: null,
   updateDocLoading: false,
   updateDocLastError: null,
-  saveButtonDisabled: true
+  saveButtonDisabled: true,
+  docSaveMessage: null,
+  docSaveSnackbarOpen: false
 };
 
 const docs = handleActions(
@@ -61,6 +65,14 @@ const docs = handleActions(
     [updateSaveButtonStatus]: (state, { payload }) => ({
       ...state,
       saveButtonDisabled: payload
+    }),
+    [setDocSaveMessage]: (state, { payload }) => ({
+      ...state,
+      docSaveMessage: payload
+    }),
+    [toggleDocSaveSnackbar]: (state, { payload }) => ({
+      ...state,
+      docSaveSnackbarOpen: payload
     })
   },
   defaultState

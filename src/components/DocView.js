@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const styles = theme => ({
   main: {
@@ -31,6 +32,7 @@ class DocView extends Component {
     };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleContentSave = this.handleContentSave.bind(this);
+    this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
   }
 
   componentDidMount() {
@@ -50,8 +52,12 @@ class DocView extends Component {
     });
   }
 
+  handleSnackbarClose() {
+    this.props.toggleDocSaveSnackbar(false);
+  }
+
   render() {
-    const { classes, saveButtonDisabled } = this.props;
+    const { classes, saveButtonDisabled, docSaveSnackbarOpen } = this.props;
     const { content } = this.state;
     return (
       <div className={classes.main}>
@@ -77,6 +83,16 @@ class DocView extends Component {
             onChange={this.handleContentChange}
           />
         </Paper>
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={docSaveSnackbarOpen}
+          onClose={this.handleSnackbarClose}
+          ContentProps={{
+            'aria-describedby': 'message-id'
+          }}
+          autoHideDuration={4000}
+          message={<span id="message-id">{this.props.docSaveMessage}</span>}
+        />
       </div>
     );
   }
