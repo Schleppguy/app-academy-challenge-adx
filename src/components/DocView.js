@@ -27,8 +27,7 @@ class DocView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: '',
-      buttonDisabled: true
+      content: ''
     };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleContentSave = this.handleContentSave.bind(this);
@@ -39,7 +38,8 @@ class DocView extends Component {
   }
 
   handleContentChange(e) {
-    this.setState({ buttonDisabled: false, content: e.target.value });
+    this.setState({ content: e.target.value });
+    this.props.updateSaveButtonStatus(false);
   }
 
   handleContentSave() {
@@ -48,19 +48,18 @@ class DocView extends Component {
       content: this.state.content,
       issuer: this.props.username
     });
-    this.setState({ buttonDisabled: true });
   }
 
   render() {
-    const { classes } = this.props;
-    const { buttonDisabled, content } = this.state;
+    const { classes, saveButtonDisabled } = this.props;
+    const { content } = this.state;
     return (
       <div className={classes.main}>
         <Button
           className={classes.button}
           variant="contained"
           color="secondary"
-          disabled={buttonDisabled}
+          disabled={saveButtonDisabled}
           onClick={this.handleContentSave}
         >
           Save Changes

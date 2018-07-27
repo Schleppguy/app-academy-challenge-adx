@@ -7,7 +7,8 @@ import {
   getDocsError,
   updateDocStart,
   updateDocSuccess,
-  updateDocError
+  updateDocError,
+  updateSaveButtonStatus
 } from '../actions';
 
 const defaultState = {
@@ -16,7 +17,8 @@ const defaultState = {
   getDocsLoading: false,
   getDocsLastError: null,
   updateDocLoading: false,
-  updateDocLastError: null
+  updateDocLastError: null,
+  saveButtonDisabled: true
 };
 
 const docs = handleActions(
@@ -49,12 +51,16 @@ const docs = handleActions(
     }),
     [updateDocSuccess]: state => ({
       ...state,
-      loading: false
+      updateDocLoading: false
     }),
     [updateDocError]: (state, { payload }) => ({
       ...state,
-      loading: false,
+      updateDocLoading: false,
       updateDocLastError: payload
+    }),
+    [updateSaveButtonStatus]: (state, { payload }) => ({
+      ...state,
+      saveButtonDisabled: payload
     })
   },
   defaultState

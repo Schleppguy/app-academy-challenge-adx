@@ -12,6 +12,7 @@ export const getDocsError = createAction('GET_DOCS_ERROR');
 export const updateDocStart = createAction('UPDATE_DOC_START');
 export const updateDocSuccess = createAction('UPDATE_DOC_SUCCESS');
 export const updateDocError = createAction('UPDATE_DOC_ERROR');
+export const updateSaveButtonStatus = createAction('UPDATE_SAVE_BUTTON_STATUS');
 
 //async
 export const getDocs = () => {
@@ -39,6 +40,7 @@ export const updateDoc = doc => {
       .then(() => {
         dispatch(updateDocSuccess());
         dispatch(getDocs());
+        dispatch(updateSaveButtonStatus(true));
       })
       .catch(error => {
         dispatch(updateDocError(error));
