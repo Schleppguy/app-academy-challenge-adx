@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -101,7 +100,7 @@ class DocListView extends Component {
           </Typography>
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             className={classes.button}
             onClick={this.toggleShowCreateForm}
           >
