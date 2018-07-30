@@ -7,6 +7,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import DocumentIcon from '@material-ui/icons/Description';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import AddIcon from '@material-ui/icons/Add';
 
 const styles = theme => ({
   main: {
@@ -19,6 +27,13 @@ const styles = theme => ({
   },
   title: {
     margin: `${theme.spacing.unit * 4}px 1em ${theme.spacing.unit * 2}px`
+  },
+  button: {
+    margin: theme.spacing.unit * 2
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+    fontSize: 20
   }
 });
 
@@ -27,13 +42,50 @@ class DocListView extends Component {
     super(props);
     this.props.getDocs();
     this.state = {
-      docNames: []
+      docNames: [],
+      createInput: '',
+      inputError: false,
+      inputErrorMessage: null,
+      showCreateForm: false
     };
+    this.toggleShowCreateForm = this.toggleShowCreateForm.bind(this);
+    this.handleCreateDoc = this.handleCreateDoc.bind(this);
+    this.handleCreateInputChange = this.handleCreateInputChange.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.docs !== prevProps.docs) {
       this.setState({ docNames: Object.keys(this.props.docs) });
+    }
+  }
+
+  toggleShowCreateForm() {
+    this.setState({ showCreateForm: !this.state.showCreateForm });
+  }
+
+  handleCreateInputChange(e) {
+    this.setState({ createInput: e.target.value });
+  }
+
+  handleCreateDoc() {
+    if (this.state.createInput === '') {
+      this.setState({
+        inputError: true,
+        inputErrorMessage: 'Please enter a name for your document'
+      });
+    } else if (this.state.docNames.lastIndexOf(this.state.createInput) >= 0) {
+      this.setState({
+        inputError: true,
+        inputErrorMessage:
+          'A document with this name already exists. Please enter a new name.'
+      });
+    } else {
+      this.props.updateDoc({
+        name: this.state.createInput.split(' ').join('_'),
+        issuer: this.props.username,
+        content: ' ',
+        actionType: 'create'
+      });
     }
   }
 
@@ -43,9 +95,20 @@ class DocListView extends Component {
       <div>Loading docs..</div>
     ) : (
       <div className={classes.main}>
-        <Typography variant="title" className={classes.title}>
-          All Docs
-        </Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="title" className={classes.title}>
+            All Docs
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={this.toggleShowCreateForm}
+          >
+            <AddIcon className={classes.leftIcon} />
+            Create new doc
+          </Button>
+        </div>
         <div className={classes.list}>
           <List>
             {this.state.docNames.map(docName => {
@@ -59,7 +122,7 @@ class DocListView extends Component {
                     <DocumentIcon style={{ fontSize: 40 }} />
                   </ListItemIcon>
                   <ListItemText
-                    primary={docName}
+                    primary={docName.split('_').join(' ')}
                     secondary={`Owners: ${this.props.docs[docName].owners.join(
                       ', '
                     )}`}
@@ -69,6 +132,38 @@ class DocListView extends Component {
             })}
           </List>
         </div>
+        <Dialog
+          open={this.state.showCreateForm}
+          onClose={this.toggleShowCreateForm}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">
+            Create a new document
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Enter the name of your new document.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Name of document"
+              fullWidth
+              onChange={this.handleCreateInputChange}
+            >
+              {this.state.createInput}
+            </TextField>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.toggleShowCreateForm} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleCreateDoc} color="primary">
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

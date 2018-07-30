@@ -15,6 +15,7 @@ export const updateDocError = createAction('UPDATE_DOC_ERROR');
 export const updateSaveButtonStatus = createAction('UPDATE_SAVE_BUTTON_STATUS');
 export const setDocSaveMessage = createAction('SET_DOC_SAVE_MESSAGE');
 export const toggleDocSaveSnackbar = createAction('TOGGLE_DOC_SAVE_SNACKBAR');
+export const addNewDoc = createAction('ADD_NEW_DOC');
 
 //async
 export const getDocs = () => {
@@ -41,17 +42,26 @@ export const updateDoc = doc => {
       })
       .then(() => {
         dispatch(updateDocSuccess());
+        dispatch(addNewDoc({ ...doc, owners: [doc.issuer] }));
         dispatch(getDocs());
-        dispatch(updateSaveButtonStatus(true));
-        dispatch(setDocSaveMessage('Saved!'));
-        dispatch(toggleDocSaveSnackbar(true));
+        if (doc.actionType === 'update') {
+          dispatch(updateSaveButtonStatus(true));
+          dispatch(setDocSaveMessage('Saved!'));
+          dispatch(toggleDocSaveSnackbar(true));
+        } else {
+          dispatch(setCurrentDoc(doc.name));
+        }
       })
       .catch(error => {
         dispatch(updateDocError(error));
-        dispatch(
-          setDocSaveMessage('An error occured while saving. Please try again.')
-        );
-        dispatch(toggleDocSaveSnackbar(true));
+        if (doc.actionType === 'update') {
+          dispatch(
+            setDocSaveMessage(
+              'An error occured while saving. Please try again.'
+            )
+          );
+          dispatch(toggleDocSaveSnackbar(true));
+        }
       });
   };
 };

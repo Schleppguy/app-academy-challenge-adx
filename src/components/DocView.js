@@ -48,7 +48,8 @@ class DocView extends Component {
     this.props.updateDoc({
       name: this.props.currentDoc,
       content: this.state.content,
-      issuer: this.props.username
+      issuer: this.props.username,
+      actionType: 'update'
     });
   }
 
@@ -72,7 +73,7 @@ class DocView extends Component {
         </Button>
         <Paper className={classes.content}>
           <Typography variant="display2" gutterBottom>
-            {this.props.currentDoc}
+            {this.props.currentDoc.split('_').join(' ')}
           </Typography>
           <Input
             autoFocus

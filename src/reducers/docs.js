@@ -10,7 +10,8 @@ import {
   updateDocError,
   updateSaveButtonStatus,
   setDocSaveMessage,
-  toggleDocSaveSnackbar
+  toggleDocSaveSnackbar,
+  addNewDoc
 } from '../actions';
 
 const defaultState = {
@@ -73,6 +74,10 @@ const docs = handleActions(
     [toggleDocSaveSnackbar]: (state, { payload }) => ({
       ...state,
       docSaveSnackbarOpen: payload
+    }),
+    [addNewDoc]: (state, { payload }) => ({
+      ...state,
+      docs: { ...state.docs, [payload.name]: payload }
     })
   },
   defaultState
